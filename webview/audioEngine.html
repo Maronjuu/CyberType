@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        http-equiv="Content-Security-Policy"
+        content="
+            default-src 'none';
+            script-src {{CSP_SOURCE}};
+            connect-src {{CSP_SOURCE}};
+            media-src {{CSP_SOURCE}};
+            style-src {{CSP_SOURCE}};
+        "
+    >
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CyberType</title>
+
+    <link
+        rel="stylesheet"
+        href="{{STYLE_URI}}"
+    >
+</head>
+
+<body>
+
+    <main class="console">
+
+        <header class="console-header">
+            <h1>CYBERTYPE</h1>
+            <p class="subtitle">AUDIO SYSTEM INTERFACE</p>
+        </header>
+
+        <section class="audio-controls">
+
+            <button id="startButton">PLAY AUDIO</button>
+
+            <p id="status" class="status status-offline">
+                SYSTEM OFFLINE
+            </p>
+
+        </section>
+
+        <section class="volume-section">
+
+            <div class="volume-header">
+                <label for="volumeSlider">MASTER VOLUME</label>
+                <span id="volumeValue">70%</span>
+            </div>
+
+            <input
+                type="range"
+                id="volumeSlider"
+                min="0"
+                max="100"
+                value="70"
+            >
+
+        </section>
+
+        <footer class="console-footer">
+            CYBERTYPE AUDIO ENGINE
+        </footer>
+
+    </main>
+
+    <script
+        src="{{SCRIPT_URI}}"
+        data-audio-base="{{AUDIO_URI}}"
+    ></script>
+
+</body>
+</html>
