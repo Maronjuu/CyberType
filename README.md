@@ -2,7 +2,7 @@
 
 **Give your code a cinematic sound.**
 
-CyberType is a Visual Studio Code extension that transforms coding into a cinematic audio experience inspired by futuristic computer systems and sci-fi interfaces, featuring beep boop sounds and Ben 10's Omnitrix sounds.
+CyberType is a Visual Studio Code extension that transforms coding into a cinematic audio experience inspired by futuristic computer systems and sci-fi interfaces, featuring beep boop sounds and Ben 10's original Omnitrix sounds.
 
 ## ✨ Features
 
