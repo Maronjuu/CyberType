@@ -13,6 +13,7 @@ CyberType is a Visual Studio Code extension that transforms coding into a cinema
 - **Delete Sound:** sound effect when deleting text.
 - **Idle Ambience:** ambient audio loop while CyberType is active.
 - **Startup Sound:** startup effect when the audio engine is activated.
+- **Terminal Open Sound:** sound effect when you open a new terminal in VSCode.
 - **Master Volume:** adjust all sound effects directly from the CyberType console.
 - **Webview Interface:** a dedicated interface inside the Visual Studio Code Explorer, featuring a visual system status indicator.
 
