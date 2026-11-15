@@ -1,4 +1,3 @@
-
 const scriptElement = document.currentScript;
 const audioBase = scriptElement.dataset.audioBase.replace(/\/$/, '');
 
@@ -16,10 +15,10 @@ let idleSource = null;
 let idleGain = null;
 let audioReady = false;
 
-// Volume generale: 70%
-let masterVolume = 0.7;
+// Master volume: 100% by default.
+let masterVolume = 1;
 
-// Memoria dell'ultimo campione riprodotto per ogni gruppo.
+// Remembers the last sample played for every sound group.
 const lastPlayed = {
     punctuation: null,
     enter: null
@@ -43,6 +42,7 @@ const audioFiles = {
     spacebar: 'actions/spacebar.wav',
     delete: 'actions/delete.wav',
     startup: 'actions/startup.wav',
+    terminalOpen: 'actions/terminal_open.wav',
 
     idle: 'idle/idle.wav'
 };
@@ -84,7 +84,9 @@ async function loadAudio() {
 // SOUND PLAYBACK
 // =========================================
 
-function playSample(name, volume = 0.7) {
+// Default sound volume is now 100%.
+// The master volume slider controls the final output level.
+function playSample(name, volume = 1.0) {
     if (
         !audioReady ||
         !audioContext ||
@@ -136,13 +138,13 @@ function getRandomSound(groupName) {
         return null;
     }
 
-    // If there is only one possible sample, returns that one.
+    // If there is only one possible sample, return that one.
     if (group.length === 1) {
         lastPlayed[groupName] = group[0];
         return group[0];
     }
 
-    // Excludes the previously reproduced sample. Avoids repeated sounds.
+    // Exclude the previously played sample to avoid repetitions.
     const availableSounds = group.filter(
         sound => sound !== lastPlayed[groupName]
     );
@@ -172,6 +174,7 @@ function startIdle() {
     idleSource.buffer = buffers.idle;
     idleSource.loop = true;
 
+    // Idle remains quieter than the other sound effects.
     idleGain.gain.value = 0.6 * masterVolume;
 
     idleSource.connect(idleGain);
@@ -207,6 +210,7 @@ function updateVolume(value) {
 
     volumeValue.textContent = `${value}%`;
 
+    // Update the idle volume immediately when the slider changes.
     if (idleGain && audioContext) {
         idleGain.gain.setTargetAtTime(
             0.6 * masterVolume,
@@ -216,11 +220,13 @@ function updateVolume(value) {
     }
 }
 
+// Listen for changes to the master volume slider.
 volumeSlider.addEventListener('input', () => {
     updateVolume(volumeSlider.value);
 });
 
-// Default master volume: 70%.
+// Set the default master volume to 100%.
+volumeSlider.value = 100;
 updateVolume(volumeSlider.value);
 
 // =========================================
@@ -249,7 +255,7 @@ async function initializeAudio() {
         }
 
         startIdle();
-        playSample("startup");
+        playSample('startup');
 
         startButton.textContent = 'STOP AUDIO';
 
@@ -336,7 +342,7 @@ window.addEventListener('message', async event => {
 
     let sound = message.sound;
 
-    // If the sound belongs to a group, 
+    // If the sound belongs to a group,
     // select a sample without consecutive repetitions.
     if (soundGroups[sound]) {
         sound = getRandomSound(sound);
